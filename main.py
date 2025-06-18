@@ -1,14 +1,12 @@
-from handlers.commands import setup_handlers
-from telegram.ext import Application
 import os
+from telegram.ext import ApplicationBuilder
+from handlers.commands import register_handlers
 
-async def main():
-    app = Application.builder().token(os.getenv("TELEGRAM_TOKEN")).build()
-    setup_handlers(app)
-    await app.start()
-    await app.updater.start_polling()
-    await app.updater.idle()
+TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+if not TELEGRAM_TOKEN:
+    raise ValueError("TELEGRAM_TOKEN is not set in environment variables.")
+
+app = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
+register_handlers(app)
+app.run_polling()

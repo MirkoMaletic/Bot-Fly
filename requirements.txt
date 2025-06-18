@@ -1,6 +1,1 @@
-python-telegram-bot==20.6
-pandas
-ccxt
-ta
-flask
-websockets
+python-telegram-bot==20.3
